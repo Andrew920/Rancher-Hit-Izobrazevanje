@@ -1,0 +1,36 @@
+grafana:
+  # Tranjno shranjevanje dashboardov
+  persistence:
+    accessModes:
+      - ReadWriteOnce
+    storageClassName: nfs-client
+    size: 2Gi
+    subPath: null
+    type: pvc
+    annotations: null
+    finalizers: null
+    enabled: true
+
+  # Dostop do grafane
+  ingress:
+    annotations: {}
+    enabled: true
+    hosts:
+      - monitoring.rancher.test
+    labels: {}
+    path: /
+    tls: []
+
+
+prometheus:
+  # Trajno shranjevanje metrik
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 50Gi
+          storageClassName: nfs-client

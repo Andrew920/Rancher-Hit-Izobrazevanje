@@ -1,0 +1,21 @@
+Naloga
+
+1. V Rancherju je kreiranih 6 Uporabnikov (admin1, admin2, admin3 in user1, user2 in user3) - potrebno jim je ustrezno dodati pravice na RKE2 cluster
+2. Z uporabo admin uporabnika kreiraj projekt z imenom uporabnka in uporabniku user dodaj ustrezne pravice
+3. Kreiraj namespace znotraj projekta, ki ima enako ime kot uporabnik user
+4. kreiraj deployment z naslednjimi parametri:
+    - image: nginx:1.26.1
+    - število replik: 3
+    - strategija posodabljanja: RollingUpdate, MaxUnavailable: 1, MaxSurge: 1
+    - ime deploymenta: nginx
+    - label na podih: nginx=<username>
+    - label na deploymentu: nginx-deployment=<username>
+5. pridobi stanje podov z uporabo lablel
+6. kreiraj ClusterIp service, ki kaže na ustvarjene pode po portu 80 z imenom nginx-service
+7. kreiraj ingress in uporabi service, ki si ga ustvaril v koraku 6 z naslednjimi parametri:
+    - ime: nginx-service
+    - hostname: <user>.test.rancher
+8. posodbi nginx na zadnjo verzijo (latest tag)
+
+
+

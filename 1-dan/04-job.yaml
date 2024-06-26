@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-backoff-limit-per-index-example
+spec:
+  completions: 6
+  parallelism: 2
+  backoffLimitP: 3
+  template:
+    spec:
+      restartPolicy: Never # required for the feature
+      containers:
+      - name: example
+        image: python
+        command:           # The jobs fails as there is at least one failed index
+                           # (all even indexes fail in here), yet all indexes
+                           # are executed as maxFailedIndexes is not exceeded.
+        - python3
+        - -c
+        - |
+          import os, sys
+          print("Hello world")
