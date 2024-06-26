@@ -21,9 +21,16 @@ kubectl applay -f <00-pod.yaml> -n <namespace>
 Za večnjo pregldnost lahko dodamo annotation, ki doda opis nadgradnje `kubernetes.io/change-cause: <opis>`
 ```
 #Zlistamo vse zadnje deployane verzije
+
+```
 kubectl rollout history deployment/<ime_deploymenta> -n <namespace> 
 ```
-```
 #Vrnjemo na točno določeno verzijo
+```
 kubectl rollout undo  deployment/<ime_deploymenta> -n <namespace>  --to-revision=<revision>
 ```
+
+Helm rolleback
+```
+helm history <RELEASE>
+helm rollback <RELEASE> [REVISION]
