@@ -1,0 +1,67 @@
+image:
+  repository: velero/velero
+  tag: v1.13.0
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+
+initContainers:
+  - name: velero-plugin-for-aws
+    image: velero/velero-plugin-for-aws:v1.9.0
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
+
+cleanUpCRDs: false
+
+configuration:
+  backupStorageLocation:
+  - name: default
+    provider: aws
+    bucket: rke2-izobrazevanje
+    accessMode: ReadWrite
+    credential:
+      name:
+      key:
+    config: 
+     region: minio
+     s3ForcePathStyle: true
+     s3Url: https://minio-test.src.si:9000
+     insecureSkipTLSVerify: true
+
+
+rbac:
+  # Whether to create the Velero role and role binding to give all permissions to the namespace to Velero.
+  create: true
+  # Whether to create the cluster role binding to give administrator permissions to Velero
+  clusterAdministrator: true
+  # Name of the ClusterRole.
+  clusterAdministratorName: cluster-admin
+
+# Information about the Kubernetes service account Velero uses.
+serviceAccount:
+  server:
+    create: true
+    name: velero
+
+credentials:
+  useSecret: true
+  name: velero-minio-credentials
+  existingSecret: 
+  secretContents: 
+   cloud: |
+     [default]
+     aws_access_key_id=rke2-izobrazevanje
+     aws_secret_access_key=Qur0vtmXc1k7cqZDLve7EwxWi0fV1eTG4m8BkU7G
+
+backupsEnabled: true
+snapshotsEnabled: false
+
+deployNodeAgent: true
