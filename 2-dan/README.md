@@ -1,10 +1,5 @@
 # Navodila za postavitev Monitoring na rancher:
 
-## Vsebnik za debugging
-```bash
-kubectl run tmp-shell -i --tty --image nicolaka/netshoot  -- /bin/bash
-```
-
 ## Potrebno je nastaviti ingress v yaml:
 ```yaml
   ingress:

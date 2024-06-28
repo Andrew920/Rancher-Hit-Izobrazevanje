@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: httpd-pvc
 spec:
+  storageClassName: nfs-client
   accessModes:
     - ReadWriteOnce
   resources:
