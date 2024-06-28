@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: ns1
+spec:
+  selector:
+    matchLabels:
+      app: custom-image
+  template:
+    metadata:
+      labels:
+        app: custom-image
+    spec:
+      containers:
+        - image: harbor.src.si/hit-izobrazevanje/nginx:1.0
+          imagePullPolicy: Always
+          name: container-0
+      imagePullSecrets:
+        - name: harbor-login
+      restartPolicy: Always
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate

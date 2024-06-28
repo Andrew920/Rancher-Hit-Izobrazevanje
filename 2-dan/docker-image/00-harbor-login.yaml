@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  .dockerconfigjson: >-
+    eyJhdXRocyI6eyJoYXJib3Iuc3JjLnNpIjp7InVzZXJuYW1lIjoic3ZjY2ljZCIsInBhc3N3b3JkIjoiU2tnbnMxcC5zcmMyMDI0In19fQ==
+kind: Secret
+metadata:
+  name: harbor-login
+  namespace: ns1

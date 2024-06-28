@@ -1,0 +1,30 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterOutput
+metadata:
+  name: test-output
+  namespace: cattle-logging-system
+spec:
+  opensearch:
+    buffer:
+      flush_at_shutdown: true
+      flush_thread_count: 4
+      timekey: 1m
+      timekey_use_utc: true
+      timekey_wait: 30s
+    hosts: opensearch1.src.si:9200,opensearch2.src.si:9200,opensearch3.src.si:9200
+    include_tag_key: true
+    include_timestamp: true
+    index_name: vms-dev-%d.%m.%Y
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: opensearch-log-writter-password
+    reconnect_on_error: true
+    reload_connections: false
+    reload_on_failure: true
+    scheme: https
+    ssl_verify: false
+    suppress_type_name: true
+    use_legacy_template: true
+    user: logwritter

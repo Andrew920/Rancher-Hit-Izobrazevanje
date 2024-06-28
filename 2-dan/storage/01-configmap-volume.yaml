@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-config-2
+data:
+  test.sh: |
+    #!/bin/bash
+    echo "hello world"/
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-pod
+spec:
+  containers:
+    - name: app
+      image: nginx:latest
+      command: [ "sh" ]
+      args: [ "/etc/app-config/test.sh" ]
+      volumeMounts:
+        - name: config
+          mountPath: "/etc/app-config"
+          readOnly: true
+  volumes:
+    - name: config
+      configMap:
+        name: demo-config-2
+
+

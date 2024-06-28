@@ -1,0 +1,25 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterFlow
+metadata:
+  name: test-flow
+  namespace: cattle-logging-system
+spec:
+  filters:
+    - tag_normaliser:
+        format: ${namespace_name}_${labels.app}
+    - dedot:
+        de_dot_nested: true
+        de_dot_separator: +
+    - record_transformer:
+        remove_keys: ts
+  globalOutputRefs:
+    - test-output
+  match:
+    - select:
+        namespaces:
+          - test
+    - exclude:
+        container_names:
+          - vms-seq
+        hosts: []
+        labels: {}
